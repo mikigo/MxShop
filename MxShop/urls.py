@@ -17,15 +17,27 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.documentation import include_docs_urls
-from apps.goods.views import GoodsListView
+from rest_framework.routers import DefaultRouter
+# from apps.goods.views import GoodsListView
+from apps.goods.views import GoodsListViewSet
 
 import xadmin
+# router 和 viewsets 配套使用
+router = DefaultRouter()
+router.register(r'goods', GoodsListViewSet, basename="goods")
+
+# good_list = GoodsListViewSet.as_view({
+#     'get': 'list',
+#     # 'post': 'create'
+# })
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('xadmin/', xadmin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
 
-    url(r'goods/$', GoodsListView.as_view(), name="good-list"),
+    # url(r'goods/$', GoodsListView.as_view(), name="good-list"),
+    # url(r'goods/$', good_list, name="good-list"),
+    path('', include(router.urls)),
     url(r'docs/', include_docs_urls(title="慕雪生鲜")),
 ]
