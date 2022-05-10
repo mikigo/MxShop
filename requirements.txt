@@ -4,3 +4,5 @@ markdown==3.3.6
 pillow==9.1.0
 requests==2.27.1
 django-filter
+django-guardian
+coreapi
