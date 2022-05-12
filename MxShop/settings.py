@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'xadmin.apps.XAdminConfig',
     'DjangoUeditor',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -136,4 +137,5 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     # 自动分页，每页的数量
     'PAGE_SIZE': 10,
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }

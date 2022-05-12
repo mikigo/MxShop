@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 
 from .serializers import GoodsSerializer
@@ -33,6 +34,15 @@ class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     queryset = Goods.objects.all()
     serializer_class = GoodsSerializer
     pagination_class = StandardResultsSetPagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['name', 'shop_price'] # 过滤器
+
+    # def get_queryset(self):
+    #     queryset = Goods.objects.all()
+    #     price_min = self.request.query_params.get("price_min", 0)
+    #     if price_min:
+    #         queryset =  queryset.filter(shop_price__gt=int(price_min))
+    #     return queryset
 
 # generics.ListAPIView 继承了 mixins.ListModelMixin, generics.GenericAPIView
 # class GoodsListView(generics.ListAPIView):
