@@ -12,8 +12,8 @@ from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
 
-from .models import Goods
-from .filters import GoodsFilter
+from .models import Goods, GoodsCategory
+from .filters import GoodsFilter, GoodsCategorySerializer
 
 from rest_framework import filters
 
@@ -44,6 +44,11 @@ class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     filter_class = GoodsFilter
     search_fields = ['name', 'goods_brief', 'goods_desc']
     ordering_fields = ['sold_num', 'add_time']
+
+class GoodsCategoryListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    """商品类别"""
+    queryset = GoodsCategory.objects.all()
+    settings = GoodsCategorySerializer
 
     # def get_queryset(self):
     #     queryset = Goods.objects.all()
