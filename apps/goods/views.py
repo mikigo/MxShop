@@ -13,6 +13,9 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
 
 from .models import Goods
+from .filters import GoodsFilter
+
+from rest_framework import filters
 
 
 class StandardResultsSetPagination(PageNumberPagination):
@@ -21,6 +24,7 @@ class StandardResultsSetPagination(PageNumberPagination):
     page_size_query_param = 'page_size'
     page_query_param = "p"
     max_page_size = 100
+
 
 # GenericViewSet是最高的一层，它继承了GenericAPIView，GenericAPIView又继承了APIView，APIView继承了View
 # mixin
@@ -31,11 +35,15 @@ class StandardResultsSetPagination(PageNumberPagination):
 # DestroyModelMixin 删除
 class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     """商品列表页"""
+    # https://www.django-rest-framework.org/api-guide/filtering/#searchfilter
+    # https://www.django-rest-framework.org/api-guide/filtering/#orderingfilter8
     queryset = Goods.objects.all()
     serializer_class = GoodsSerializer
     pagination_class = StandardResultsSetPagination
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['name', 'shop_price'] # 过滤器
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filter_class = GoodsFilter
+    search_fields = ['name', 'goods_brief', 'goods_desc']
+    ordering_fields = ['sold_num', 'add_time']
 
     # def get_queryset(self):
     #     queryset = Goods.objects.all()
