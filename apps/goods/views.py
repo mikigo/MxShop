@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 
-from .serializers import GoodsSerializer
+from .serializers import GoodsSerializer, GoodsCategorySerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import mixins
@@ -13,7 +13,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
 
 from .models import Goods, GoodsCategory
-from .filters import GoodsFilter, GoodsCategorySerializer
+from .filters import GoodsFilter
 
 from rest_framework import filters
 
@@ -45,17 +45,21 @@ class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     search_fields = ['name', 'goods_brief', 'goods_desc']
     ordering_fields = ['sold_num', 'add_time']
 
-class GoodsCategoryListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
-    """商品类别"""
-    queryset = GoodsCategory.objects.all()
-    settings = GoodsCategorySerializer
-
     # def get_queryset(self):
     #     queryset = Goods.objects.all()
     #     price_min = self.request.query_params.get("price_min", 0)
     #     if price_min:
     #         queryset =  queryset.filter(shop_price__gt=int(price_min))
     #     return queryset
+
+
+class GoodsCategoryListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    """
+    list:
+        商品类别
+        """
+    queryset = GoodsCategory.objects.filter(category_type=1)
+    serializer_class = GoodsCategorySerializer
 
 # generics.ListAPIView 继承了 mixins.ListModelMixin, generics.GenericAPIView
 # class GoodsListView(generics.ListAPIView):

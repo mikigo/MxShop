@@ -19,17 +19,18 @@ from django.urls import path, include
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
 # from apps.goods.views import GoodsListView
-from apps.goods.views import GoodsListViewSet
+from apps.goods.views import GoodsListViewSet, GoodsCategoryListViewSet
 
 import xadmin
 # router 和 viewsets 配套使用
 router = DefaultRouter()
 router.register(r'goods', GoodsListViewSet, basename="goods")
+router.register(r'categorys', GoodsCategoryListViewSet, basename="categorys")
 
-# good_list = GoodsListViewSet.as_view({
-#     'get': 'list',
-#     # 'post': 'create'
-# })
+good_list = GoodsListViewSet.as_view({
+    'get': 'list',
+    # 'post': 'create'
+})
 
 urlpatterns = [
     path('admin/', admin.site.urls),

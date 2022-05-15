@@ -11,14 +11,30 @@ from apps.goods.models import Goods, GoodsCategory
 #         """Create and return a new Goods"""
 #         return Goods.objects.create(**validated_data)
 
-class CategorySerializer(serializers.ModelSerializer):
+class GoodsCategorySerializer3(serializers.ModelSerializer):
+    class Meta:
+        model = GoodsCategory
+        fields = "__all__"
+
+
+class GoodsCategorySerializer2(serializers.ModelSerializer):
+    sub_cat = GoodsCategorySerializer3(many=True)
+
+    class Meta:
+        model = GoodsCategory
+        fields = "__all__"
+
+
+class GoodsCategorySerializer(serializers.ModelSerializer):
+    sub_cat = GoodsCategorySerializer2(many=True)
+
     class Meta:
         model = GoodsCategory
         fields = "__all__"
 
 
 class GoodsSerializer(serializers.ModelSerializer):
-    category = CategorySerializer()  # 外键的所有信息展示出来
+    category = GoodsCategorySerializer()  # 外键的所有信息展示出来
 
     class Meta:
         model = Goods

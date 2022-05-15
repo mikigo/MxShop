@@ -22,6 +22,3 @@ class GoodsFilter(filters.FilterSet):
         model = Goods
         fields = ['price_min', 'price_max']
 
-
-class GoodsCategorySerializer(filters.FilterSet):
-    ...
