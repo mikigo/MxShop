@@ -16,12 +16,14 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.authtoken import views
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
 # from apps.goods.views import GoodsListView
 from apps.goods.views import GoodsListViewSet, GoodsCategoryListViewSet
 
 import xadmin
+
 # router 和 viewsets 配套使用
 router = DefaultRouter()
 router.register(r'goods', GoodsListViewSet, basename="goods")
@@ -41,4 +43,6 @@ urlpatterns = [
     # url(r'goods/$', good_list, name="good-list"),
     path('', include(router.urls)),
     url(r'docs/', include_docs_urls(title="慕雪生鲜")),
+
+    path('api-token-auth/', views.obtain_auth_token)
 ]

@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'xadmin.apps.XAdminConfig',
     'DjangoUeditor',
     'django_filters',
-    'corsheaders'
+    'corsheaders',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -141,4 +142,11 @@ REST_FRAMEWORK = {
     # 自动分页，每页的数量
     'PAGE_SIZE': 10,
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    # 身份验证方式
+    # https://www.django-rest-framework.org/api-guide/authentication/#tokenauthentication
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
 }
